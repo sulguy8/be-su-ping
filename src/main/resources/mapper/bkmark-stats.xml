@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bdi.sb.mapper.BkmarkInfoMapper">
+	<select id="selectBkmarkName" resultType="bs">
+		SELECT bk_num, vi_num FROM bkmark_stats WHERE ui_num=#{uiNum}
+	</select>
+	
+	<select id="selectBkvenue" resultType="bs">
+		SELECT vi_num, vi_name, vi_img from venue_info WHERE vi_num=#{viNum};
+	</select>
+	
+	<delete id="deleteBkMark">
+		delete from bkmark_stats where bk_num = #{bkNum}
+	</delete>
+</mapper>

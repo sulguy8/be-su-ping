@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bdi.sb.mapper.VenueInfoMapper">
+
+	<select id="selectVenueInfoList" resultType="venue">
+		select * from
+		venue_info
+		<where>
+			<if test="searchOpt!=null">
+				${searchOpt} LIKE CONCAT('%',#{searchVal},'%')
+			</if>
+		</where>
+		order by vi_num desc
+		limit #{page.startNum},10
+	</select>
+
+	<select id="totalVenueInfoCount" resultType="int">
+		SELECT COUNT(*) FROM
+		venue_info
+		<where>
+			<if test="searchOpt!=null">
+				${searchOpt} LIKE CONCAT('%',#{searchVal},'%')
+			</if>
+		</where>
+	</select>
+
+
+	<select id="selectVenueInfo" parameterType="venue" resultType="venue">
+		select * from venue_info
+		<where>	
+			<if test="viNum != null">
+				and vi_num = #{viNum}
+			</if>
+			<if test="viName != null">
+				and vi_name = #{viName}
+			</if>
+			<if test="viAddr != null">
+				and vi_addr = #{viAddr}
+			</if>
+			<if test="viPwd != null">
+				and vi_pwd = #{viPwd}
+			</if>
+			<if test="viTel != null">
+				and vi_tel = #{viTel}
+			</if>
+			<if test="viLatitude != null">
+				and vi_latitude = #{viLatitude}
+			</if>
+			<if test="viLongitude != null">
+				and vi_longitude = #{viLongitude}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectVenueInfoForValidationCheck" parameterType="venue" resultType="venue">
+		select * from venue_info where vi_num=#{viNum}
+	</select>
+	
+	<select id="selectVenueInfoForLogin" parameterType="venue" resultType="venue">
+		select * from venue_info where vi_num=#{viNum} and vi_pwd=#{viPwd}
+	</select>
+
+	<insert id="insertVenueInfo" parameterType="venue">
+		INSERT INTO
+		venue_info(vi_pwd,vi_name,vi_addr,vi_tel,vi_intro,vi_businessdays,vi_businesshours,vi_status,vi_latitude,vi_longitude)
+		VALUES('123456',#{viName},#{viAddr},#{viTel},'test입니다','2000-00-00','00:00:00','close',#{x},#{y})
+	</insert>
+
+	<update id="updateVenueOpeningStatus" parameterType="venue">
+		update venue_info set vi_status=#{viStatus} where vi_num=#{viNum}
+	</update>
+
+	<update id="updateVenueInfo" parameterType="venue">
+		update venue_info
+		<set>
+			<if test="viPwd!=null">
+				, vi_pwd=#{viPwd}
+			</if>
+			<if test="viAddr!=null">
+				, vi_addr=#{viAddr}
+			</if>
+			<if test="viTel!=null">
+				, vi_tel=#{viTel}
+			</if>
+			<if test="viImg!=null">
+				, vi_img=#{viImg}
+			</if>
+			<if test="viIntro!=null">
+				, vi_intro=#{viIntro}
+			</if>
+			<if test="viBusinessdays!=null">
+				, vi_businessdays=#{viBusinessdays}
+			</if>
+			<if test="viBusinesshours!=null">
+				, vi_businesshours=#{viBusinesshours}
+			</if>
+			<if test="viStatus!=null">
+				, vi_status=#{viStatus}
+			</if>
+		</set>
+		where vi_num=#{viNum}
+	</update>
+
+	<delete id="deleteVenueInfo">
+		delete from venue_info
+		<where>
+			<if test="viNums!=null">
+				<foreach collection="viNums" item="viNum" separator="or">
+					vi_num =
+					#{viNum}
+				</foreach>
+			</if>
+			<if test="viNums==null">
+				vi_num = #{viNum}
+			</if>
+
+		</where>
+	</delete>
+
+</mapper>

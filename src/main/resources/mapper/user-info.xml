@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.bdi.sb.mapper.UserInfoMapper">
+	<select id="doLogin" resultType="user">
+		select * from user_info
+		where ui_id = #{uiId}
+		and ui_pwd= #{uiPwd}
+	</select>
+	
+	<select id="selectUserInfoList" resultType="user">
+		select * from user_info
+		<where>
+			<if test="searchOpt!=null">
+					${searchOpt} LIKE CONCAT('%',#{searchVal},'%')
+			</if>
+		</where>
+		order by ui_num desc
+		limit #{page.startNum},10
+	</select>
+	
+	
+	<select id="totalUserInfoCount" resultType="int">
+		SELECT COUNT(*) FROM
+		user_info
+		<where>
+			<if test="searchOpt!=null">
+					${searchOpt} LIKE CONCAT('%',#{searchVal},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="selectUserInfo" parameterType="user"
+		resultType="user">
+		select * from user_info
+		<where>
+			<if test="uiNum != null">
+				and ui_num = #{uiNum}
+			</if>
+			<if test="uiId != null">
+				and ui_Id = #{uiId}
+			</if>
+			<if test="uiEmail != null">
+				and ui_email = #{uiEmail}
+			</if>
+			<if test="uiTel != null">
+				and ui_tel = #{uiTel}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insertUserInfo">
+		insert into
+		user_info(ui_id,ui_pwd,ui_name,ui_email,ui_tel)
+		values(#{uiId},#{uiPwd},#{uiName},#{uiEmail},#{uiTel})
+	</insert>
+	
+	<update id="updateUserInfo">
+		update user_info
+		<set>
+			<if test="uiId != null">
+				,ui_id = #{uiId}
+			</if>
+			<if test="uiPwd != null">
+				,ui_pwd = #{uiPwd}
+			</if>
+			<if test="uiName != null">
+				,ui_name = #{uiName}
+			</if>
+			<if test="uiEmail != null">
+				,ui_email = #{uiEmail}
+			</if>
+			<if test="uiTel != null">
+				,ui_tel = #{uiTel}
+			</if>
+			<if test="uiAddr != null">
+				,ui_addr = #{uiAddr}
+			</if>
+			<if test="uiBkmark != null">
+				,ui_bkmark = #{uiBkmark}
+			</if>
+			<if test="uiImgname != null">
+				,ui_imgname = #{uiImgname}
+			</if>
+		</set>
+		where ui_num = #{uiNum}
+	</update>
+	
+	<delete id="deleteUserInfo">
+		delete from user_info
+		<where>
+			<if test="uiNums!=null">
+				<foreach collection="uiNums" item="uiNum" separator="or">
+					ui_num =
+					#{uiNum}
+				</foreach>
+			</if>
+			<if test="uiNums==null">
+				ui_num = #{uiNum}
+			</if>
+
+		</where>
+	</delete>
+</mapper>
