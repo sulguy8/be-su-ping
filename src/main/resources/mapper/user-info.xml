@@ -10,6 +10,10 @@
 		and ui_pwd= #{uiPwd}
 	</select>
 	
+	<select id="selectTestInfo" resultType="test">
+		select * from test_info
+	</select>
+	
 	<select id="selectUserInfoList" resultType="user">
 		select * from user_info
 		<where>

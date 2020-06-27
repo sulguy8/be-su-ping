@@ -21,6 +21,7 @@ import com.bdi.sb.mapper.VenueInfoMapper;
 import com.bdi.sb.service.UserInfoService;
 import com.bdi.sb.vo.BkmarkStatsVO;
 import com.bdi.sb.vo.PageVO;
+import com.bdi.sb.vo.TestInfoVO;
 import com.bdi.sb.vo.UserInfoVO;
 import com.bdi.sb.vo.VenueInfoVO;
 
@@ -40,6 +41,12 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Resource 
 	private VenueInfoMapper viMapper;
 	
+	@Override
+	public List<TestInfoVO> selectTestInfo(TestInfoVO test) {
+		List<TestInfoVO> result = uiMapper.selectTestInfo();
+		System.out.println(result);
+		return result;
+	}
 	@Override
 	public Map<String, Object> selectUserInfo(UserInfoVO user) {
 		BkmarkStatsVO bs = new BkmarkStatsVO();
@@ -168,5 +175,4 @@ public class UserInfoServiceImpl implements UserInfoService {
 		}
 		return rMap;
 	}
-
 }

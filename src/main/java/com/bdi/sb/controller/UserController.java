@@ -1,5 +1,6 @@
 package com.bdi.sb.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bdi.sb.service.UserInfoService;
+import com.bdi.sb.vo.TestInfoVO;
 import com.bdi.sb.vo.UserInfoVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,12 @@ public class UserController {
 	@Resource
 	private UserInfoService uiService;
 
+	@GetMapping("/test")
+	public List<TestInfoVO> getTest(@ModelAttribute TestInfoVO test) {
+		log.info("test=>{}", test);
+		return uiService.selectTestInfo(test);
+	}
+	
 	@GetMapping("/user")
 	public Map<String, Object> getUser(@ModelAttribute UserInfoVO user) {
 		log.info("test=>{}", user);
